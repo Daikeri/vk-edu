@@ -45,6 +45,17 @@ class MainActivity : ComponentActivity() {
                             }
                             startActivity(dialIntent)
                         },
+                        onShareText = { text ->
+                            val sendIntent = Intent(Intent.ACTION_SEND).apply {
+                                putExtra(Intent.EXTRA_TEXT, text)
+                                type = "text/plain"
+                            }
+                            val chooser = Intent.createChooser(
+                                sendIntent,
+                                getString(R.string.share_via)
+                            )
+                            startActivity(chooser)
+                        },
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -57,6 +68,7 @@ class MainActivity : ComponentActivity() {
 fun MainScreen(
     onOpenSecondActivity: (String) -> Unit,
     onDialFriend: (String) -> Unit,
+    onShareText: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var inputText by remember { mutableStateOf("") }
@@ -81,6 +93,10 @@ fun MainScreen(
         Button(onClick = { onDialFriend(inputText) }) {
             Text(text = stringResource(R.string.call_friend))
         }
+
+        Button(onClick = { onShareText(inputText) }) {
+            Text(text = stringResource(R.string.share_text))
+        }
     }
 }
 
@@ -90,7 +106,8 @@ fun MainScreenPreview() {
     VkEduTheme {
         MainScreen(
             onOpenSecondActivity = {},
-            onDialFriend = {}
+            onDialFriend = {},
+            onShareText = {}
         )
     }
 }
