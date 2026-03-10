@@ -2,5 +2,6 @@
     <string name="app_name">VkEdu</string>
     <string name="input_hint">Enter text</string>
     <string name="open_second_activity">Open second Activity</string>
+    <string name="call_friend">Call a friend</string>
     <string name="empty_text_placeholder">No text received</string>
 </resources>

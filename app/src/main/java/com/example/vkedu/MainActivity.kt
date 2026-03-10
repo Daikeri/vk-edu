@@ -1,6 +1,7 @@
 package com.example.vkedu
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -38,6 +39,12 @@ class MainActivity : ComponentActivity() {
                             }
                             startActivity(intent)
                         },
+                        onDialFriend = { phoneNumber ->
+                            val dialIntent = Intent(Intent.ACTION_DIAL).apply {
+                                data = Uri.parse("tel:${phoneNumber.trim()}")
+                            }
+                            startActivity(dialIntent)
+                        },
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -49,6 +56,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen(
     onOpenSecondActivity: (String) -> Unit,
+    onDialFriend: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var inputText by remember { mutableStateOf("") }
@@ -69,6 +77,10 @@ fun MainScreen(
         Button(onClick = { onOpenSecondActivity(inputText) }) {
             Text(text = stringResource(R.string.open_second_activity))
         }
+
+        Button(onClick = { onDialFriend(inputText) }) {
+            Text(text = stringResource(R.string.call_friend))
+        }
     }
 }
 
@@ -76,6 +88,9 @@ fun MainScreen(
 @Composable
 fun MainScreenPreview() {
     VkEduTheme {
-        MainScreen(onOpenSecondActivity = {})
+        MainScreen(
+            onOpenSecondActivity = {},
+            onDialFriend = {}
+        )
     }
 }
